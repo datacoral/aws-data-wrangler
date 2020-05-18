@@ -399,8 +399,7 @@ def get_engine(db_type: str, host: str, port: int, database: str, user: str, pas
     if db_type in ("redshift", "postgresql"):
         conn_str: str = f"{db_type}+psycopg2://{user}:{password}@{host}:{port}/{database}"
         return sqlalchemy.create_engine(
-            conn_str, echo=False, executemany_mode="values", executemany_values_page_size=100_000
-        )
+            conn_str, echo=False, executemany_mode="values", executemany_values_page_size=100_000, connect_args={'sslmode': 'verify-ca'})
     if db_type == "mysql":
         conn_str = f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
         return sqlalchemy.create_engine(conn_str, echo=False)
